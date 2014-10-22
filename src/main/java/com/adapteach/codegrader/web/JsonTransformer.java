@@ -1,5 +1,6 @@
-package com.adapteach.codegrader;
+package com.adapteach.codegrader.web;
 
+import com.adapteach.codegrader.model.Submission;
 import com.google.gson.Gson;
 import spark.ResponseTransformer;
 

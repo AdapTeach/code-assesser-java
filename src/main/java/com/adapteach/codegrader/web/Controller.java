@@ -1,4 +1,7 @@
-package com.adapteach.codegrader;
+package com.adapteach.codegrader.web;
+
+import com.adapteach.codegrader.model.Submission;
+import com.adapteach.codegrader.run.CodeRunner;
 
 import static spark.Spark.post;
 
@@ -12,8 +15,7 @@ public class Controller {
     public void publish() {
         post(basePath, (request, response) -> {
             Submission submission = jsonTransformer.parse(request.body());
-            Result result = runner.run(submission);
-            return result;
+            return runner.run(submission);
         }, jsonTransformer);
     }
 

@@ -12,16 +12,15 @@ public class BackendTest {
 
     @Test
     public void helloWorld() throws IOException {
-        StringBuilder sb = new StringBuilder();
-        sb.append("public class Program {");
-        sb.append("");
-        sb.append("public String execute() {");
-        sb.append("return \"Hello, World !\";");
-        sb.append("}");
-        sb.append("");
-        sb.append("}");
         SubmissionJson submission = new SubmissionJson();
-        submission.code = sb.toString();
+
+        submission.code = "public class Program {" +
+                "" +
+                "   public String execute() {" +
+                "       return \"Hello, World !\";" +
+                "   }" +
+                "" +
+                "}";
 
         ResultJson result = backend.run(submission);
 
@@ -30,16 +29,15 @@ public class BackendTest {
 
     @Test
     public void meaningOfLife() throws IOException {
-        StringBuilder sb = new StringBuilder();
-        sb.append("public class Program {");
-        sb.append("");
-        sb.append("public String execute() {");
-        sb.append("return \"42\";");
-        sb.append("}");
-        sb.append("");
-        sb.append("}");
         SubmissionJson submission = new SubmissionJson();
-        submission.code = sb.toString();
+
+        submission.code = "public class Program {" +
+                "" +
+                "   public String execute() {" +
+                "       return \"42\";" +
+                "   }" +
+                "" +
+                "}";
 
         ResultJson result = backend.run(submission);
 

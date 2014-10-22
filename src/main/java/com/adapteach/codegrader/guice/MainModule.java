@@ -1,4 +1,4 @@
-package com.adapteach.codegrader;
+package com.adapteach.codegrader.guice;
 
 import com.google.inject.AbstractModule;
 

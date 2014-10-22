@@ -1,5 +1,6 @@
 package com.adapteach.codegrader;
 
+import com.adapteach.codegrader.web.Controller;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpContent;
 import com.google.api.client.http.HttpRequestFactory;
@@ -12,7 +13,7 @@ import java.io.IOException;
 
 public class Backend {
 
-    private static final int PORT_NUMBER = 7654;
+    private static final int PORT_NUMBER = 5021;
     protected static final String BASE_PATH = "http://localhost:" + PORT_NUMBER + Controller.basePath;
     private static final Server server = new Server(PORT_NUMBER);
 

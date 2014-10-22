@@ -1,5 +1,7 @@
 package com.adapteach.codegrader;
 
+import com.adapteach.codegrader.guice.MainModule;
+import com.adapteach.codegrader.web.Controller;
 import com.google.gson.JsonSyntaxException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -23,7 +25,7 @@ public class Server {
     private boolean started;
 
     public Server() {
-        this(4567);
+        this(5020);
     }
 
     public Server(int portNumber) {

@@ -1,4 +1,4 @@
-package com.adapteach.codegrader;
+package com.adapteach.codegrader.model;
 
 import lombok.Data;
 
