@@ -1,41 +1,38 @@
 package com.adapteach.codegrader.run;
 
-import com.adapteach.codegrader.model.Result;
-import com.adapteach.codegrader.model.Submission;
 import com.adapteach.codegrader.compile.MemoryClassLoader;
 
-import javax.tools.*;
+import javax.tools.JavaCompiler;
+import javax.tools.ToolProvider;
 import java.lang.reflect.Method;
 
 public class CodeRunner {
 
-    private final JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+    private static final JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 
-    public Result run(Submission submission) {
-        Result result = new Result();
-
-        Class program = loadClass(submission);
-        String output = execute(program);
-        result.setOut(output);
+    public CodeRunResult run(CodeRunParams params) {
+        CodeRunResult result = new CodeRunResult();
+        result.setPass(execute(params, result));
         return result;
     }
 
-    private Class loadClass(Submission submission) {
-        MemoryClassLoader classLoader = new MemoryClassLoader("Program", submission.getCode());
+    private boolean execute(CodeRunParams params, CodeRunResult result) {
+        Class clazz = loadClass(params, result);
         try {
-            return classLoader.loadClass("Program");
-        } catch (ClassNotFoundException e) {
+            Object o = clazz.getConstructor().newInstance();
+            Method m = clazz.getDeclaredMethod("execute");
+            boolean pass = (boolean) m.invoke(o);
+            return pass;
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    private String execute(Class program) {
+    private Class loadClass(CodeRunParams params, CodeRunResult result) {
+        MemoryClassLoader classLoader = new MemoryClassLoader(params.getClassName(), params.getCode(), result.getOut());
         try {
-            Object o = program.getConstructor().newInstance();
-            Method m = program.getDeclaredMethod("execute");
-            String r = (String) m.invoke(o);
-            return r;
-        } catch (Exception e) {
+            return classLoader.loadClass(params.getClassName());
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

@@ -3,9 +3,8 @@ package com.adapteach.codegrader.model;
 import lombok.Data;
 
 @Data
-public class Result {
+public class SubmissionResult {
 
-    private String out;
-    private String err;
+    private boolean pass;
 
 }

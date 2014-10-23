@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Submission {
 
+    private Assessment assessment;
+
     private String code;
 
 }

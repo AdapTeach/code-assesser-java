@@ -1,5 +1,7 @@
 package com.adapteach.codegrader;
 
+import com.adapteach.codegrader.model.SubmissionJson;
+import com.adapteach.codegrader.model.SubmissionResultJson;
 import com.adapteach.codegrader.web.Controller;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpContent;
@@ -23,11 +25,11 @@ public class Backend {
         server.start();
     }
 
-    public ResultJson run(SubmissionJson submission) throws IOException {
+    public SubmissionResultJson submit(SubmissionJson submission) throws IOException {
         return requestFactory
                 .buildPostRequest(url(), asJson(submission))
                 .execute()
-                .parseAs(ResultJson.class);
+                .parseAs(SubmissionResultJson.class);
     }
 
     private GenericUrl url() {
