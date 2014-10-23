@@ -32,7 +32,6 @@ public class BackendTest {
         assertThat(result.pass).isTrue();
     }
 
-
     @Test
     public void shouldFailForIncorrectHelloWorldSubmission() throws IOException {
         SubmissionJson submission = new SubmissionJson();
@@ -46,6 +45,18 @@ public class BackendTest {
                 "   }" +
                 "" +
                 "}";
+
+        SubmissionResultJson result = backend.submit(submission);
+
+        assertThat(result.pass).isFalse();
+    }
+
+    @Test
+    public void shouldFailWhenCompilationError() throws IOException {
+        SubmissionJson submission = new SubmissionJson();
+        submission.assessment = Assessments.HELLO_WORLD;
+
+        submission.code = "class { }"; // Can't compile this !
 
         SubmissionResultJson result = backend.submit(submission);
 

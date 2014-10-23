@@ -1,15 +1,12 @@
 package com.adapteach.codegrader.run;
 
+import com.adapteach.codegrader.compile.CompilationResult;
 import lombok.Data;
-
-import java.io.Writer;
 
 @Data
 public class CodeRunParams {
 
-    private String code;
-
-    private String className;
+    private CompilationResult compilationResult;
 
     private String methodName;
 

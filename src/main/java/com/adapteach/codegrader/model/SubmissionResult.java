@@ -7,4 +7,6 @@ public class SubmissionResult {
 
     private boolean pass;
 
+    private String compilationErrors;
+
 }

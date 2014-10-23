@@ -1,6 +1,7 @@
 package com.adapteach.codegrader.verify;
 
-import com.adapteach.codegrader.Console;
+import com.adapteach.codegrader.compile.CodeCompiler;
+import com.adapteach.codegrader.compile.CompilationResult;
 import com.adapteach.codegrader.model.Submission;
 import com.adapteach.codegrader.model.SubmissionResult;
 import com.adapteach.codegrader.model.Test;
@@ -33,22 +34,45 @@ public class SubmissionVerifier {
      */
     private static final String TEST_METHOD_CALL_TEMPLATE = "testResults[%d] = test%d();";
 
-    public CodeRunner runner = new CodeRunner();
+    private CodeCompiler compiler = new CodeCompiler();
+    private CodeRunner runner = new CodeRunner();
     private TestCodeBuilder testCodeBuilder = new TestCodeBuilder();
 
     public SubmissionResult verify(Submission submission) {
-
-        CodeRunParams runParams = new CodeRunParams();
-        runParams.setClassName(submission.getAssessment().getClassName());
-        runParams.setMethodName(METHOD_NAME);
-        runParams.setCode(formatRunnableCode(submission));
-
-        CodeRunResult runResult = runner.run(runParams);
-
         SubmissionResult submissionResult = new SubmissionResult();
-        submissionResult.setPass(runResult.isPass());
 
-        return submissionResult;
+        // Check submitted code can compile without errors
+        CompilationResult preCompilation = compileSubmittedCode(submission);
+        if (!preCompilation.isSuccess()) {
+            submissionResult.setPass(false);
+            submissionResult.setCompilationErrors(preCompilation.getCompilationErrors());
+            return submissionResult;
+        } else { // Compile with tests and execute
+            CompilationResult compilationResult = compile(submission);
+            CodeRunResult runResult = run(compilationResult);
+            submissionResult.setPass(runResult.isPass());
+            return submissionResult;
+        }
+
+    }
+
+    public CompilationResult compileSubmittedCode(Submission submission) {
+        String className = submission.getAssessment().getClassName();
+        String code = submission.getCode();
+        return compiler.compile(className, code);
+    }
+
+    private CompilationResult compile(Submission submission) {
+        String className = submission.getAssessment().getClassName();
+        String code = formatRunnableCode(submission);
+        return compiler.compile(className, code);
+    }
+
+    private CodeRunResult run(CompilationResult compilationResult) {
+        CodeRunParams runParams = new CodeRunParams();
+        runParams.setCompilationResult(compilationResult);
+        runParams.setMethodName(METHOD_NAME);
+        return runner.run(runParams);
     }
 
     private String formatRunnableCode(Submission submission) {
@@ -61,7 +85,6 @@ public class SubmissionVerifier {
         appendMethodToCall(tests.size(), code);
 
         code.append("}");
-        Console.log(code);
         return code.toString();
     }
 
