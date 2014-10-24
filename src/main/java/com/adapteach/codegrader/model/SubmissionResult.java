@@ -2,6 +2,7 @@ package com.adapteach.codegrader.model;
 
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -9,6 +10,8 @@ public class SubmissionResult {
 
     private boolean pass;
 
-    private List<String> compilationErrors;
+    private List<String> compilationErrors = new ArrayList<>();
+
+    private List<String> failedTestMessages = new ArrayList<>();
 
 }

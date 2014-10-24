@@ -15,9 +15,6 @@ public class SubmissionResultJson {
     public List<String> compilationErrors;
 
     @Key
-    public String out;
-
-    @Key
-    public String err;
+    public List<String> failedTestMessages;
 
 }

@@ -15,24 +15,29 @@ public class SubmissionVerifier {
 
     private static final String METHOD_NAME = "execute";
 
+    private static final String IMPORTS
+            = "import java.util.ArrayList;" +
+            "import java.util.List;";
+
     /**
-     * testCount, testResults
+     * runTests
      */
     private static final String METHOD_TEMPLATE
-            = "public boolean " + METHOD_NAME + "() {" +
-            "   boolean[] testResults = new boolean[%d];" +
+            = "public List<String> " + METHOD_NAME + "() {" +
+            "   List<String> failedTestMessages = new ArrayList<>();" +
+            "   String testFailMessage;" +
             "   %s" +
-            "   boolean pass = true;" +
-            "   for (boolean result : testResults) {" +
-            "       if (!result) pass = false;" +
-            "   }" +
-            "   return pass;" +
+            "   return failedTestMessages;" +
             "}";
 
     /**
-     * testIndex, testIndex
+     * testIndex
      */
-    private static final String TEST_METHOD_CALL_TEMPLATE = "testResults[%d] = test%d();";
+    private static final String TEST_METHOD_CALL_TEMPLATE
+            = "testFailMessage = test%d();" +
+            "if (testFailMessage != null) {" +
+            "   failedTestMessages.add(testFailMessage);" +
+            "}";
 
     private CodeCompiler compiler = new CodeCompiler();
     private CodeRunner runner = new CodeRunner();
@@ -48,9 +53,10 @@ public class SubmissionVerifier {
             submissionResult.setCompilationErrors(preCompilation.getCompilationErrors());
             return submissionResult;
         } else { // Compile with tests and execute
-            CompilationResult compilationResult = compile(submission);
+            CompilationResult compilationResult = compileWithTests(submission);
             CodeRunResult runResult = run(compilationResult);
             submissionResult.setPass(runResult.isPass());
+            submissionResult.setFailedTestMessages(runResult.getFailedTestMessages());
             return submissionResult;
         }
 
@@ -62,9 +68,9 @@ public class SubmissionVerifier {
         return compiler.compile(className, code);
     }
 
-    private CompilationResult compile(Submission submission) {
+    private CompilationResult compileWithTests(Submission submission) {
         String className = submission.getAssessment().getClassName();
-        String code = formatRunnableCode(submission);
+        String code = formatCodeWithTests(submission);
         return compiler.compile(className, code);
     }
 
@@ -75,8 +81,8 @@ public class SubmissionVerifier {
         return runner.run(runParams);
     }
 
-    private String formatRunnableCode(Submission submission) {
-        StringBuilder code = new StringBuilder(submission.getCode());
+    private String formatCodeWithTests(Submission submission) {
+        StringBuilder code = new StringBuilder(IMPORTS + submission.getCode());
         code.deleteCharAt(code.lastIndexOf("}"));
 
         List<Test> tests = submission.getAssessment().getTests();
@@ -98,10 +104,10 @@ public class SubmissionVerifier {
     private void appendMethodToCall(int testCount, StringBuilder code) {
         StringBuilder testMethodCalls = new StringBuilder();
         for (int i = 0; i < testCount; i++) {
-            testMethodCalls.append(String.format(TEST_METHOD_CALL_TEMPLATE, i, i));
+            testMethodCalls.append(String.format(TEST_METHOD_CALL_TEMPLATE, i));
         }
 
-        String methodCode = String.format(METHOD_TEMPLATE, testCount, testMethodCalls.toString());
+        String methodCode = String.format(METHOD_TEMPLATE, testMethodCalls.toString());
         code.append(methodCode);
     }
 

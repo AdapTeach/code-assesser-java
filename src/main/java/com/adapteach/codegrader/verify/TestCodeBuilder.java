@@ -8,12 +8,12 @@ public class TestCodeBuilder {
      * index, expectation, index, title
      */
     private static final String TEMPLATE
-            = "public boolean test%d() {" +
+            = "public String test%d() {" +
             "   boolean passExpectation = (%s);" +
             "   if (!passExpectation) {" +
-            "       System.out.println(\"Failed test #%d : %s\");" +
+            "       return \"Failed test #%d : %s\";" +
             "   }" +
-            "   return passExpectation;" +
+            "   return null;" +
             "}";
 
     public String buildTestCode(Test test, int index) {

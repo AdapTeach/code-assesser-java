@@ -2,16 +2,14 @@ package com.adapteach.codegrader.run;
 
 import lombok.Data;
 
-import java.io.StringWriter;
-import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class CodeRunResult {
 
     private boolean pass;
 
-    private Writer out = new StringWriter();
-
-    private String err;
+    private List<String> failedTestMessages = new ArrayList<>();
 
 }

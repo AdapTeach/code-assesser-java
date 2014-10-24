@@ -1,24 +1,23 @@
 package com.adapteach.codegrader.run;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 public class CodeRunner {
 
     public CodeRunResult run(CodeRunParams params) {
         CodeRunResult result = new CodeRunResult();
-        result.setPass(execute(params, result));
-        return result;
-    }
-
-    private boolean execute(CodeRunParams params, CodeRunResult result) {
         Class clazz = params.getCompilationResult().getCompiledClass();
         try {
             Object o = clazz.getConstructor().newInstance();
             Method m = clazz.getDeclaredMethod("execute");
-            return (boolean) m.invoke(o);
+            result.setFailedTestMessages((List<String>) m.invoke(o));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        result.setPass(result.getFailedTestMessages().size() == 0);
+        return result;
     }
+
 
 }
