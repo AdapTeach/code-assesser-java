@@ -2,6 +2,8 @@ package com.adapteach.codegrader.compile;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class CompilationResult {
 
@@ -9,6 +11,6 @@ public class CompilationResult {
 
     private Class compiledClass;
 
-    private String compilationErrors;
+    private List<String> compilationErrors;
 
 }

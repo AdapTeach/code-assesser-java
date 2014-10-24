@@ -63,21 +63,16 @@ public class BackendTest {
         assertThat(result.pass).isFalse();
     }
 
-    //    @Test
-    public void meaningOfLife() throws IOException {
+    @Test
+    public void shouldRespondWithCompilationErrors() throws IOException {
         SubmissionJson submission = new SubmissionJson();
+        submission.assessment = Assessments.HELLO_WORLD;
 
-        submission.code = "public class Program {" +
-                "" +
-                "   public String execute() {" +
-                "       return \"42\";" +
-                "   }" +
-                "" +
-                "}";
+        submission.code = "class { }"; // Can't compile this !
 
         SubmissionResultJson result = backend.submit(submission);
 
-        assertThat(result.out).isEqualTo("42");
+        assertThat(result.compilationErrors.get(0)).contains(submission.code);
     }
 
 }

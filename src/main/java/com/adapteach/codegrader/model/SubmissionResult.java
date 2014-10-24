@@ -2,11 +2,13 @@ package com.adapteach.codegrader.model;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class SubmissionResult {
 
     private boolean pass;
 
-    private String compilationErrors;
+    private List<String> compilationErrors;
 
 }

@@ -1,5 +1,8 @@
 package com.adapteach.codegrader.compile;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CodeCompiler {
 
     public CompilationResult compile(String className, String code) {
@@ -7,9 +10,9 @@ public class CodeCompiler {
         CompilationResult compilation = new CompilationResult();
         if (classLoader.hasCompilationErrors()) {
             compilation.setSuccess(false);
-            StringBuilder sb = new StringBuilder();
-            classLoader.getDiagnosticListener().getDiagnostics().forEach(sb::append);
-            compilation.setCompilationErrors(sb.toString());
+            List<String> compilationErrors = new ArrayList<>();
+            classLoader.getDiagnosticListener().getDiagnostics().forEach((diagnostic) -> compilationErrors.add(diagnostic.toString()));
+            compilation.setCompilationErrors(compilationErrors);
         } else {
             compilation.setSuccess(true);
             try {
