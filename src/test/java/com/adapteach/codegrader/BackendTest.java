@@ -96,4 +96,45 @@ public class BackendTest {
         assertThat(result.compilationErrors.get(0)).contains(submission.code);
     }
 
+    @Test
+    public void shouldFailWhenTestsCantCompileWithSubmission() throws IOException {
+        SubmissionJson submission = new SubmissionJson();
+        submission.assessment = Assessments.HELLO_WORLD;
+
+        submission.code
+                = "public class " + submission.assessment.className + " {" +
+                "" +
+                "   public String wrongMethodName() {" + // Wrong method name !
+                "       return \"Hello, World !\";" +
+                "   }" +
+                "" +
+                "}";
+
+        SubmissionResultJson result = backend.submit(submission);
+
+        assertThat(result.pass).isFalse();
+    }
+
+    @Test
+    public void shouldSupportAssessmentWithTestInitializationCode() throws IOException {
+        SubmissionJson submission = new SubmissionJson();
+        submission.assessment = Assessments.ALL_POSITIVE;
+
+        submission.code
+                = "public class " + submission.assessment.className + " {" +
+                "" +
+                "   public boolean allPositive(int[] array) {" +
+                "       for (int element : array) {" +
+                "           if (element < 0) return false;" +
+                "       }" +
+                "       return true;" +
+                "   }" +
+                "" +
+                "}";
+
+        SubmissionResultJson result = backend.submit(submission);
+
+        assertThat(result.pass).isTrue();
+    }
+
 }

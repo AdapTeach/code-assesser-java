@@ -13,7 +13,7 @@ public class TestJson {
     public String title;
 
     @Key
-    public String code;
+    public String initializationCode;
 
     @Key
     public List<String> expectations = new ArrayList<>();

@@ -10,7 +10,7 @@ public class Test {
 
     private String title;
 
-    private String code;
+    private String initializationCode;
 
     private List<String> expectations = new ArrayList<>();
 

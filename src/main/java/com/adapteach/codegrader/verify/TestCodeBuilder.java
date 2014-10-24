@@ -5,10 +5,11 @@ import com.adapteach.codegrader.model.Test;
 public class TestCodeBuilder {
 
     /**
-     * index, expectation, index, title
+     * index, initializationCode, expectation, index, title
      */
     private static final String TEMPLATE
             = "public String test%d() {" +
+            "   %s" +
             "   boolean passExpectation = (%s);" +
             "   if (!passExpectation) {" +
             "       return \"Failed test #%d : %s\";" +
@@ -17,7 +18,7 @@ public class TestCodeBuilder {
             "}";
 
     public String buildTestCode(Test test, int index) {
-        return String.format(TEMPLATE, index, test.getExpectations().get(0), index, test.getTitle());
+        return String.format(TEMPLATE, index, test.getInitializationCode(), test.getExpectations().get(0), index, test.getTitle());
     }
 
 }
