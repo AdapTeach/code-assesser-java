@@ -50,12 +50,13 @@ public class Server {
 
         exception(JsonSyntaxException.class, (e, request, response) -> {
             response.status(400);
+            e.printStackTrace(); // TODO Log
             response.body("Malformed JSON : " + e.getCause().getMessage());
         });
 
         exception(NumberFormatException.class, (e, request, response) -> {
             response.status(400);
-            e.printStackTrace();
+            e.printStackTrace(); // TODO Log
             response.body("Unsupported JSON Format : A number was expected " + e.getMessage());
         });
 
