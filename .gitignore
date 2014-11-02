@@ -1,5 +1,5 @@
 # IDE config files
 .idea
-code-grader-java.iml
+code-assesser-java.iml
 
 target/
