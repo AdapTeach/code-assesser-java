@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.adapteach</groupId>
-    <artifactId>code-grader-java</artifactId>
+    <artifactId>code-assesser-java</artifactId>
     <version>0.0.1</version>
 
 
@@ -90,7 +90,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>org.cri.redmetrics.Main</mainClass>
+                            <mainClass>com.adapteach.codeassesser.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
