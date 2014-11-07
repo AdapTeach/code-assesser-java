@@ -12,6 +12,8 @@ public class SubmissionResult {
 
     private List<String> compilationErrors = new ArrayList<>();
 
+    private String exceptionMessage;
+
     private List<String> failedTestMessages = new ArrayList<>();
 
 }

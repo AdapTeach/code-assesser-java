@@ -1,8 +1,6 @@
 package com.adapteach.codeassesser;
 
-import com.adapteach.codeassesser.model.Assessments;
-import com.adapteach.codeassesser.model.SubmissionJson;
-import com.adapteach.codeassesser.model.SubmissionResultJson;
+import com.adapteach.codeassesser.model.*;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -16,7 +14,7 @@ public class BackendTest {
     @Test
     public void shouldPassForCorrectHelloWorldSubmission() throws IOException {
         SubmissionJson submission = new SubmissionJson();
-        submission.assessment = Assessments.HELLO_WORLD;
+        submission.assessment = Assessments.helloWorld();
 
         submission.code
                 = "public class " + submission.assessment.className + " {" +
@@ -35,7 +33,7 @@ public class BackendTest {
     @Test
     public void shouldFailForIncorrectHelloWorldSubmission() throws IOException {
         SubmissionJson submission = new SubmissionJson();
-        submission.assessment = Assessments.HELLO_WORLD;
+        submission.assessment = Assessments.helloWorld();
 
         submission.code
                 = "public class " + submission.assessment.className + " {" +
@@ -54,7 +52,7 @@ public class BackendTest {
     @Test
     public void shouldRespondWithFailedTestMessages() throws IOException {
         SubmissionJson submission = new SubmissionJson();
-        submission.assessment = Assessments.HELLO_WORLD;
+        submission.assessment = Assessments.helloWorld();
 
         submission.code
                 = "public class " + submission.assessment.className + " {" +
@@ -74,7 +72,7 @@ public class BackendTest {
     @Test
     public void shouldFailWhenCompilationError() throws IOException {
         SubmissionJson submission = new SubmissionJson();
-        submission.assessment = Assessments.HELLO_WORLD;
+        submission.assessment = Assessments.helloWorld();
 
         submission.code = "class { }"; // Can't compile this !
 
@@ -86,7 +84,7 @@ public class BackendTest {
     @Test
     public void shouldRespondWithCompilationErrors() throws IOException {
         SubmissionJson submission = new SubmissionJson();
-        submission.assessment = Assessments.HELLO_WORLD;
+        submission.assessment = Assessments.helloWorld();
 
         submission.code = "class { }"; // Can't compile this !
 
@@ -99,7 +97,7 @@ public class BackendTest {
     @Test
     public void shouldFailWhenTestsCantCompileWithSubmission() throws IOException {
         SubmissionJson submission = new SubmissionJson();
-        submission.assessment = Assessments.HELLO_WORLD;
+        submission.assessment = Assessments.helloWorld();
 
         submission.code
                 = "public class " + submission.assessment.className + " {" +
@@ -118,7 +116,7 @@ public class BackendTest {
     @Test
     public void shouldSupportAssessmentWithTestInitializationCode() throws IOException {
         SubmissionJson submission = new SubmissionJson();
-        submission.assessment = Assessments.ALL_POSITIVE;
+        submission.assessment = Assessments.allPositive();
 
         submission.code
                 = "public class " + submission.assessment.className + " {" +
@@ -135,6 +133,41 @@ public class BackendTest {
         SubmissionResultJson result = backend.submit(submission);
 
         assertThat(result.pass).isTrue();
+    }
+
+    @Test
+    public void shouldFailWhenException() throws IOException {
+        SubmissionJson submission = new SubmissionJson();
+        submission.assessment = Assessments.initializedField();
+
+        submission.code
+                = "public class " + submission.assessment.className + " {" +
+                "" +
+                "   public String name;" + // Field is not initialized => NullPointerException will be thrown
+                "" +
+                "}";
+
+        SubmissionResultJson result = backend.submit(submission);
+
+        assertThat(result.pass).isFalse();
+    }
+
+    @Test
+    public void shouldRespondWithExceptionMessage() throws IOException {
+        SubmissionJson submission = new SubmissionJson();
+        submission.assessment = Assessments.initializedField();
+
+
+        submission.code
+                = "public class " + submission.assessment.className + " {" +
+                "" +
+                "   public String name;" + // Field is not initialized => NullPointerException will be thrown
+                "" +
+                "}";
+
+        SubmissionResultJson result = backend.submit(submission);
+
+        assertThat(result.exceptionMessage).contains("NullPointerException");
     }
 
 }

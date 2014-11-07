@@ -11,11 +11,14 @@ public class CodeRunResult {
 
     private boolean pass;
 
+    private String exceptionMessage;
+
     private List<String> failedTestMessages = new ArrayList<>();
 
     public SubmissionResult asSubmissionResult() {
         SubmissionResult submissionResult = new SubmissionResult();
         submissionResult.setPass(pass);
+        submissionResult.setExceptionMessage(exceptionMessage);
         submissionResult.setFailedTestMessages(failedTestMessages);
         return submissionResult;
     }

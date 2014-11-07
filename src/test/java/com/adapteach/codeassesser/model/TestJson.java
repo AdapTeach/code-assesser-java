@@ -10,10 +10,10 @@ import java.util.List;
 public class TestJson {
 
     @Key
-    public String title;
+    public String title = "";
 
     @Key
-    public String initializationCode;
+    public String initializationCode = "";
 
     @Key
     public List<String> expectations = new ArrayList<>();

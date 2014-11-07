@@ -2,10 +2,7 @@ package com.adapteach.codeassesser.model;
 
 public class Assessments {
 
-    public static final AssessmentJson HELLO_WORLD = helloWorld();
-    public static final AssessmentJson ALL_POSITIVE = allPositive();
-
-    private static AssessmentJson helloWorld() {
+    public static AssessmentJson helloWorld() {
         AssessmentJson helloWorld = new AssessmentJson();
 
         helloWorld.title = "Hello World";
@@ -30,7 +27,7 @@ public class Assessments {
         return helloWorld;
     }
 
-    private static AssessmentJson allPositive() {
+    public static AssessmentJson allPositive() {
         AssessmentJson allPositive = new AssessmentJson();
 
         allPositive.title = "All Positive";
@@ -61,6 +58,19 @@ public class Assessments {
         test1.expectations.add("!allPositive(array)");
 
         return allPositive;
+    }
+
+    public static AssessmentJson initializedField() {
+        AssessmentJson initializedField = new AssessmentJson();
+
+        initializedField.className = "Person";
+
+        TestJson test0 = new TestJson();
+        initializedField.tests.add(test0);
+        test0.initializationCode = "Person person = new Person();";
+        test0.expectations.add("person.name.equals(\"Bob\")");
+
+        return initializedField;
     }
 
 }

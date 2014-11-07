@@ -10,16 +10,16 @@ import java.util.List;
 public class AssessmentJson {
 
     @Key
-    public String title;
+    public String title = "";
 
     @Key
-    public String instructions;
+    public String instructions = "";
 
     @Key
     public String className;
 
     @Key
-    public String startCode;
+    public String startCode = "";
 
     @Key
     public List<TestJson> tests = new ArrayList<>();

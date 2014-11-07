@@ -12,10 +12,11 @@ public class CodeRunner {
             Object o = clazz.getConstructor().newInstance();
             Method m = clazz.getDeclaredMethod("execute");
             result.setFailedTestMessages((List<String>) m.invoke(o));
+            result.setPass(result.getFailedTestMessages().size() == 0);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            result.setPass(false);
+            result.setExceptionMessage(e.getCause().toString());
         }
-        result.setPass(result.getFailedTestMessages().size() == 0);
         return result;
     }
 
