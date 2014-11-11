@@ -5,19 +5,12 @@ public class Assessments {
     public static AssessmentJson helloWorld() {
         AssessmentJson helloWorld = new AssessmentJson();
 
-        helloWorld.title = "Hello World";
-
-        helloWorld.instructions = "Write a static method called helloWorld which returns 'Hello, World !'";
-
-        helloWorld.className = "HelloWorld";
-
-        helloWorld.startCode
-                = "public class " + helloWorld.className + " {" +
-                "" +
-                "   // CODE HERE" +
-                "" +
-                "}";
-
+        // TITLE : Hello World
+        // INSTRUCTIONS : Write a static method called helloWorld which returns 'Hello, World !'
+        // START CODE :
+        //        public class HelloWorld {
+        //            // CODE HERE
+        //        }
         TestJson test = new TestJson();
         helloWorld.tests.add(test);
         test.title = "Should return 'Hello, World !'";
@@ -30,20 +23,16 @@ public class Assessments {
     public static AssessmentJson allPositive() {
         AssessmentJson allPositive = new AssessmentJson();
 
-        allPositive.title = "All Positive";
-
-        allPositive.instructions = "Implement the static method allPositive() which takes an array of integers as input and returns true if all the elements in the array are positive, false otherwise";
-
-        allPositive.className = "AllPositive";
-
-        allPositive.startCode
-                = "public class " + allPositive.className + " {" +
-                "" +
-                "   public boolean allPositive(int[] array) {" +
-                "       // CODE HERE" +
-                "   }" +
-                "" +
-                "}";
+        // TITLE : Hello World
+        // INSTRUCTIONS : Implement the static method allPositive() which takes an array of integers as input and returns true if all the elements in the array are positive, false otherwise
+        // START CODE :
+        //        public class AllPositive {
+        //
+        //            public boolean allPositive(int[] array) {
+        //                // CODE HERE
+        //            }
+        //
+        //        }
 
         TestJson test0 = new TestJson();
         allPositive.tests.add(test0);
@@ -63,14 +52,19 @@ public class Assessments {
     public static AssessmentJson initializedField() {
         AssessmentJson initializedField = new AssessmentJson();
 
-        initializedField.className = "Person";
-
         TestJson test0 = new TestJson();
         initializedField.tests.add(test0);
         test0.initializationCode = "Person person = new Person();";
         test0.expectations.add("person.name.equals(\"Bob\")");
 
         return initializedField;
+    }
+
+    public static AssessmentJson inheritance() {
+        AssessmentJson inheritance = new AssessmentJson();
+
+
+        return inheritance;
     }
 
 }

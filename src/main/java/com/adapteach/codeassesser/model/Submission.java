@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -11,6 +14,6 @@ public class Submission {
 
     private Assessment assessment;
 
-    private String code;
+    private List<CompilationUnit> compilationUnits = new ArrayList<>();
 
 }

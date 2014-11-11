@@ -16,8 +16,11 @@ public class BackendTest {
         SubmissionJson submission = new SubmissionJson();
         submission.assessment = Assessments.helloWorld();
 
-        submission.code
-                = "public class " + submission.assessment.className + " {" +
+        CompilationUnitJson helloWorldClass = new CompilationUnitJson();
+        submission.compilationUnits.add(helloWorldClass);
+        helloWorldClass.name = "HelloWorld";
+        helloWorldClass.code
+                = "public class " + helloWorldClass.name + " {" +
                 "" +
                 "   public String helloWorld() {" +
                 "       return \"Hello, World !\";" +
@@ -35,8 +38,11 @@ public class BackendTest {
         SubmissionJson submission = new SubmissionJson();
         submission.assessment = Assessments.helloWorld();
 
-        submission.code
-                = "public class " + submission.assessment.className + " {" +
+        CompilationUnitJson helloWorldClass = new CompilationUnitJson();
+        submission.compilationUnits.add(helloWorldClass);
+        helloWorldClass.name = "HelloWorld";
+        helloWorldClass.code
+                = "public class " + helloWorldClass.name + " {" +
                 "" +
                 "   public String helloWorld() {" +
                 "       return \"Unexpected output\";" +
@@ -54,8 +60,11 @@ public class BackendTest {
         SubmissionJson submission = new SubmissionJson();
         submission.assessment = Assessments.helloWorld();
 
-        submission.code
-                = "public class " + submission.assessment.className + " {" +
+        CompilationUnitJson helloWorldClass = new CompilationUnitJson();
+        submission.compilationUnits.add(helloWorldClass);
+        helloWorldClass.name = "HelloWorld";
+        helloWorldClass.code
+                = "public class " + helloWorldClass.name + " {" +
                 "" +
                 "   public String helloWorld() {" +
                 "       return \"Unexpected output\";" +
@@ -74,7 +83,10 @@ public class BackendTest {
         SubmissionJson submission = new SubmissionJson();
         submission.assessment = Assessments.helloWorld();
 
-        submission.code = "class { }"; // Can't compile this !
+        CompilationUnitJson helloWorldClass = new CompilationUnitJson();
+        submission.compilationUnits.add(helloWorldClass);
+        helloWorldClass.name = "HelloWorld";
+        helloWorldClass.code = "class { }"; // Can't compile this !
 
         SubmissionResultJson result = backend.submit(submission);
 
@@ -86,12 +98,15 @@ public class BackendTest {
         SubmissionJson submission = new SubmissionJson();
         submission.assessment = Assessments.helloWorld();
 
-        submission.code = "class { }"; // Can't compile this !
+        CompilationUnitJson helloWorldClass = new CompilationUnitJson();
+        submission.compilationUnits.add(helloWorldClass);
+        helloWorldClass.name = "HelloWorld";
+        helloWorldClass.code = "class { }"; // Can't compile this !
 
         SubmissionResultJson result = backend.submit(submission);
 
         assertThat(result.compilationErrors.size()).isEqualTo(1);
-        assertThat(result.compilationErrors.get(0)).contains(submission.code);
+        assertThat(result.compilationErrors.get(0)).contains(helloWorldClass.code);
     }
 
     @Test
@@ -99,8 +114,11 @@ public class BackendTest {
         SubmissionJson submission = new SubmissionJson();
         submission.assessment = Assessments.helloWorld();
 
-        submission.code
-                = "public class " + submission.assessment.className + " {" +
+        CompilationUnitJson helloWorldClass = new CompilationUnitJson();
+        submission.compilationUnits.add(helloWorldClass);
+        helloWorldClass.name = "HelloWorld";
+        helloWorldClass.code
+                = "public class " + helloWorldClass.name + " {" +
                 "" +
                 "   public String wrongMethodName() {" + // Wrong method name !
                 "       return \"Hello, World !\";" +
@@ -118,8 +136,11 @@ public class BackendTest {
         SubmissionJson submission = new SubmissionJson();
         submission.assessment = Assessments.allPositive();
 
-        submission.code
-                = "public class " + submission.assessment.className + " {" +
+        CompilationUnitJson allPositiveClass = new CompilationUnitJson();
+        submission.compilationUnits.add(allPositiveClass);
+        allPositiveClass.name = "AllPositive";
+        allPositiveClass.code
+                = "public class " + allPositiveClass.name + " {" +
                 "" +
                 "   public boolean allPositive(int[] array) {" +
                 "       for (int element : array) {" +
@@ -140,8 +161,11 @@ public class BackendTest {
         SubmissionJson submission = new SubmissionJson();
         submission.assessment = Assessments.initializedField();
 
-        submission.code
-                = "public class " + submission.assessment.className + " {" +
+        CompilationUnitJson initializedFieldClass = new CompilationUnitJson();
+        submission.compilationUnits.add(initializedFieldClass);
+        initializedFieldClass.name = "InitializedField";
+        initializedFieldClass.code
+                = "public class " + initializedFieldClass.name + " {" +
                 "" +
                 "   public String name;" + // Field is not initialized => NullPointerException will be thrown
                 "" +
@@ -157,9 +181,11 @@ public class BackendTest {
         SubmissionJson submission = new SubmissionJson();
         submission.assessment = Assessments.initializedField();
 
-
-        submission.code
-                = "public class " + submission.assessment.className + " {" +
+        CompilationUnitJson initializedFieldClass = new CompilationUnitJson();
+        submission.compilationUnits.add(initializedFieldClass);
+        initializedFieldClass.name = "Person";
+        initializedFieldClass.code
+                = "public class " + initializedFieldClass.name + " {" +
                 "" +
                 "   public String name;" + // Field is not initialized => NullPointerException will be thrown
                 "" +
@@ -167,6 +193,7 @@ public class BackendTest {
 
         SubmissionResultJson result = backend.submit(submission);
 
+        Console.log(result);
         assertThat(result.exceptionMessage).contains("NullPointerException");
     }
 

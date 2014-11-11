@@ -2,6 +2,7 @@ package com.adapteach.codeassesser.verify;
 
 import com.adapteach.codeassesser.compile.CodeCompiler;
 import com.adapteach.codeassesser.compile.CompilationResult;
+import com.adapteach.codeassesser.model.CompilationUnit;
 import com.adapteach.codeassesser.model.Submission;
 import com.adapteach.codeassesser.model.SubmissionResult;
 import com.adapteach.codeassesser.model.Test;
@@ -52,8 +53,9 @@ public class SubmissionVerifier {
     }
 
     private CompilationResult compileWithoutTests(Submission submission) {
-        String className = submission.getAssessment().getClassName();
-        String code = submission.getCode();
+        CompilationUnit compilationUnit = submission.getCompilationUnits().get(0);
+        String className = compilationUnit.getName();
+        String code = compilationUnit.getCode();
         return compiler.compile(className, code);
     }
 
@@ -67,7 +69,8 @@ public class SubmissionVerifier {
     }
 
     private CompilationResult compileWithTests(Submission submission) {
-        String className = submission.getAssessment().getClassName();
+        CompilationUnit compilationUnit = submission.getCompilationUnits().get(0);
+        String className = compilationUnit.getName();
         String code = formatCodeWithTests(submission);
         return compiler.compile(className, code);
     }
@@ -80,7 +83,7 @@ public class SubmissionVerifier {
     }
 
     private String formatCodeWithTests(Submission submission) {
-        StringBuilder code = new StringBuilder(IMPORTS + submission.getCode());
+        StringBuilder code = new StringBuilder(IMPORTS + submission.getCompilationUnits().get(0).getCode());
         code.deleteCharAt(code.lastIndexOf("}"));
 
         List<Test> tests = submission.getAssessment().getTests();

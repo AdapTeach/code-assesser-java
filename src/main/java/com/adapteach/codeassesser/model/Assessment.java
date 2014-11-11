@@ -8,15 +8,8 @@ import java.util.List;
 @Data
 public class Assessment {
 
-    private String title;
-
-    private String instructions;
-
-    private String className;
-
-    private String startCode;
+    private List<CompilationUnit> providedCompilationUnits = new ArrayList<>();
 
     private List<Test> tests = new ArrayList<>();
-
 
 }
