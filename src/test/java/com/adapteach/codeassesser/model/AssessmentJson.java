@@ -10,7 +10,7 @@ import java.util.List;
 public class AssessmentJson {
 
     @Key
-    public List<CompilationUnit> providedCompilationUnits;
+    public List<CompilationUnitJson> providedCompilationUnits = new ArrayList<>();
 
     @Key
     public List<TestJson> tests = new ArrayList<>();

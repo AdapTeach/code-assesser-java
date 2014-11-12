@@ -62,6 +62,14 @@ public class Assessments {
     public static AssessmentJson inheritance() {
         AssessmentJson inheritance = new AssessmentJson();
 
+        CompilationUnitJson parentClass = new CompilationUnitJson();
+        inheritance.providedCompilationUnits.add(parentClass);
+        parentClass.name = "Parent";
+        parentClass.code = "public class Parent {}";
+
+        TestJson test0 = new TestJson();
+        inheritance.tests.add(test0);
+        test0.expectations.add("Parent.class.isAssignableFrom(Child.class)");
 
         return inheritance;
     }

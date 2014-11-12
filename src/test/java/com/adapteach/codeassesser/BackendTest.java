@@ -196,4 +196,19 @@ public class BackendTest {
         assertThat(result.exceptionMessage).contains("NullPointerException");
     }
 
+    @Test
+    public void shouldCompileProvidedClass() throws IOException {
+        SubmissionJson submission = new SubmissionJson();
+        submission.assessment = Assessments.inheritance();
+
+        CompilationUnitJson childClass = new CompilationUnitJson();
+        submission.compilationUnits.add(childClass);
+        childClass.name = "Child";
+        childClass.code = "public class Child extends Parent {}";
+
+        SubmissionResultJson result = backend.submit(submission);
+
+        assertThat(result.pass).isTrue();
+    }
+
 }

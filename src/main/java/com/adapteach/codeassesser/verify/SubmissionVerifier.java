@@ -26,7 +26,7 @@ public class SubmissionVerifier {
     }
 
     private CompilationResult compileWithoutTests(Submission submission) {
-        return compiler.compile(submission.getCompilationUnits());
+        return compiler.compile(submission.getAllCompilationUnits());
     }
 
     private SubmissionResult compileAndRunWithTests(Submission submission) {
