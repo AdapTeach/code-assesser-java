@@ -193,7 +193,6 @@ public class BackendTest {
 
         SubmissionResultJson result = backend.submit(submission);
 
-        Console.log(result);
         assertThat(result.exceptionMessage).contains("NullPointerException");
     }
 

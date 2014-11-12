@@ -1,5 +1,6 @@
 package com.adapteach.codeassesser.compile;
 
+import com.adapteach.codeassesser.model.CompilationUnit;
 import lombok.Getter;
 
 import javax.tools.DiagnosticCollector;
@@ -9,9 +10,7 @@ import javax.tools.ToolProvider;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 class MemoryClassLoader extends ClassLoader {
 
@@ -23,18 +22,11 @@ class MemoryClassLoader extends ClassLoader {
     @Getter
     private final DiagnosticCollector diagnosticListener = new DiagnosticCollector<>();
 
-    public MemoryClassLoader(String className, String code) {
-        this(Collections.singletonMap(className, code));
-    }
-
-    /**
-     * @param map The list of java codes mapped by class names
-     */
-    public MemoryClassLoader(Map<String, String> map) {
+    public MemoryClassLoader(List<CompilationUnit> toCompile) {
         List<Source> sources = new ArrayList<>();
-        map.entrySet().forEach((Map.Entry<String, String> fileContent) -> {
-            String className = fileContent.getKey();
-            String code = fileContent.getValue();
+        toCompile.forEach((compilationUnit) -> {
+            String className = compilationUnit.getName();
+            String code = compilationUnit.getCode();
             sources.add(new Source(className, Kind.SOURCE, code));
         });
         this.compiler.getTask(out, fileManager, diagnosticListener, null, null, sources).call();

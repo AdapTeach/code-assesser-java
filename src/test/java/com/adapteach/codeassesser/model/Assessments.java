@@ -14,8 +14,7 @@ public class Assessments {
         TestJson test = new TestJson();
         helloWorld.tests.add(test);
         test.title = "Should return 'Hello, World !'";
-        test.initializationCode = "";
-        test.expectations.add("helloWorld().equals(\"Hello, World !\")");
+        test.expectations.add("new HelloWorld().helloWorld().equals(\"Hello, World !\")");
 
         return helloWorld;
     }
@@ -38,13 +37,13 @@ public class Assessments {
         allPositive.tests.add(test0);
         test0.title = "Should return true when passed an array containing positive integers only";
         test0.initializationCode = "int[] array = {1, 5, 3, 7, 4, 9, 2};";
-        test0.expectations.add("allPositive(array)");
+        test0.expectations.add("new AllPositive().allPositive(array)");
 
         TestJson test1 = new TestJson();
         allPositive.tests.add(test1);
         test1.title = "Should return false when passed an array containing a mix of positive and negative integers";
         test1.initializationCode = "int[] array = {1, 5, 3, -7, 4, -9, 2};";
-        test1.expectations.add("!allPositive(array)");
+        test1.expectations.add("!(new AllPositive().allPositive(array))");
 
         return allPositive;
     }

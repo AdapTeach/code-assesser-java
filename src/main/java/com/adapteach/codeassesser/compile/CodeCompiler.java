@@ -1,12 +1,16 @@
 package com.adapteach.codeassesser.compile;
 
+import com.adapteach.codeassesser.model.CompilationUnit;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CodeCompiler {
 
-    public CompilationResult compile(String className, String code) {
-        MemoryClassLoader classLoader = new MemoryClassLoader(className, code);
+    public CompilationResult compile(List<CompilationUnit> compilationUnits) {
+        MemoryClassLoader classLoader = new MemoryClassLoader(compilationUnits);
         CompilationResult compilation = new CompilationResult();
         if (classLoader.hasCompilationErrors()) {
             compilation.setSuccess(false);
@@ -15,14 +19,21 @@ public class CodeCompiler {
             compilation.setCompilationErrors(compilationErrors);
         } else {
             compilation.setSuccess(true);
-            try {
-                Class clazz = classLoader.loadClass(className);
-                compilation.setCompiledClass(clazz);
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
+            compilation.setCompiledClasses(loadCompiledClasses(compilationUnits, classLoader));
         }
         return compilation;
     }
 
+    private Map<String, Class> loadCompiledClasses(List<CompilationUnit> compilationUnits, ClassLoader classLoader) {
+        Map<String, Class> compiledClasses = new HashMap<>();
+        compilationUnits.forEach((compilationUnit) -> {
+            try {
+                Class clazz = classLoader.loadClass(compilationUnit.getName());
+                compiledClasses.put(compilationUnit.getName(), clazz);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        return compiledClasses;
+    }
 }

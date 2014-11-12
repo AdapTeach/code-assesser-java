@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkState;
 
@@ -13,9 +14,9 @@ public class CompilationResult {
 
     private boolean success;
 
-    private Class compiledClass;
-
     private List<String> compilationErrors = new ArrayList<>();
+
+    public Map<String, Class> compiledClasses;
 
     public SubmissionResult asSubmissionResult() {
         checkState(!success, "Should be called only for failed compilations");

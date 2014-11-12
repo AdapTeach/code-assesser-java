@@ -16,4 +16,11 @@ public class Submission {
 
     private List<CompilationUnit> compilationUnits = new ArrayList<>();
 
+    public List<CompilationUnit> getAllCompilationUnits() {
+        List<CompilationUnit> toReturn = new ArrayList<>();
+        toReturn.addAll(compilationUnits);
+        toReturn.addAll(assessment.getProvidedCompilationUnits());
+        return toReturn;
+    }
+
 }
