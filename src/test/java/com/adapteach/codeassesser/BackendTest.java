@@ -211,4 +211,21 @@ public class BackendTest {
         assertThat(result.pass).isTrue();
     }
 
+    @Test
+    public void shouldRespondWithCompilationErrorWhenCompilationUnitToSubmitIsMissing() throws IOException {
+        SubmissionJson submission = new SubmissionJson();
+        submission.assessment = Assessments.inheritance();
+
+        CompilationUnitJson childClass = new CompilationUnitJson();
+        submission.compilationUnits.add(childClass);
+        childClass.name = "Child";
+        childClass.code = "";
+
+        SubmissionResultJson result = backend.submit(submission);
+
+        assertThat(result.pass).isFalse();
+        assertThat(result.compilationErrors).hasSize(1);
+        assertThat(result.compilationErrors.get(0)).contains("Missing").contains("Child").contains("class");
+    }
+
 }

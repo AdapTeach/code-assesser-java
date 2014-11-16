@@ -6,10 +6,15 @@ import lombok.Data;
 public class CompilationUnit {
 
     public enum Kind {
-        CLASS, INTERFACE, ENUM
+        CLASS, INTERFACE, ENUM;
+
+        @Override
+        public String toString() {
+            return super.toString().toLowerCase();
+        }
     }
 
-    private Kind kind;
+    private Kind kind = Kind.CLASS;
 
     private String name;
 
