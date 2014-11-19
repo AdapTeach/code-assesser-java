@@ -1,4 +1,4 @@
-package com.adapteach.codeassesser.model;
+package com.adapteach.codeassesser.verify;
 
 import lombok.Data;
 

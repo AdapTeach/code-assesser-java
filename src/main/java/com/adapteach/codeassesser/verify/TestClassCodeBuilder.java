@@ -1,8 +1,6 @@
 package com.adapteach.codeassesser.verify;
 
-import com.adapteach.codeassesser.model.Assessment;
-import com.adapteach.codeassesser.model.CompilationUnit;
-import com.adapteach.codeassesser.model.Test;
+import com.adapteach.codeassesser.compile.CompilationUnit;
 
 import java.util.List;
 

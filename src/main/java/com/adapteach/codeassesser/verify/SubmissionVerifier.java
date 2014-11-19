@@ -1,14 +1,11 @@
 package com.adapteach.codeassesser.verify;
 
-import com.adapteach.codeassesser.compile.CodeCompiler;
-import com.adapteach.codeassesser.compile.CompilationResult;
-import com.adapteach.codeassesser.model.CompilationUnit;
-import com.adapteach.codeassesser.model.Submission;
-import com.adapteach.codeassesser.model.SubmissionResult;
+import com.adapteach.codeassesser.compile.*;
 import com.adapteach.codeassesser.run.CodeRunParams;
 import com.adapteach.codeassesser.run.CodeRunner;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SubmissionVerifier {
 
@@ -17,21 +14,25 @@ public class SubmissionVerifier {
     private TestClassCodeBuilder testCodeBuilder = new TestClassCodeBuilder();
 
     public SubmissionResult verify(Submission submission) {
-        CompilationResult preCompilation = compileWithoutTests(submission);
-        if (preCompilation.isSuccess()) {
-            return compileAndRunWithTests(submission);
+        CompilationCheck compilation = compiler.checkCanCompile(submission.getAllCompilationUnits());
+        if (compilation.passed()) {
+            return compileWithTestsAndRun(submission);
         } else {
-            return preCompilation.asSubmissionResult();
+            return compilation.asSubmissionResult();
         }
     }
 
-    private CompilationResult compileWithoutTests(Submission submission) {
-        return compiler.compile(submission.getAllCompilationUnits());
-    }
-
-    private SubmissionResult compileAndRunWithTests(Submission submission) {
-        CompilationResult compilation = compileWithTests(submission);
-        if (compilation.isSuccess()) {
+    private SubmissionResult compileWithTestsAndRun(Submission submission) {
+        CompilationResult compilation;
+        try {
+            compilation = compileWithTests(submission);
+        } catch (CodeStyleException e) {
+            SubmissionResult result = new SubmissionResult();
+            result.setPass(false);
+            result.getCompilationErrors().add(e.getMessage());
+            return result;
+        }
+        if (compilation.passed()) {
             return run(compilation);
         } else {
             return compilation.asSubmissionResult();
@@ -39,10 +40,11 @@ public class SubmissionVerifier {
     }
 
     private CompilationResult compileWithTests(Submission submission) {
-        List<CompilationUnit> compilationUnits = submission.getAllCompilationUnits();
+        List<CompilationUnit> unsafeCompilationUnits = submission.getAllCompilationUnits();
+        List<CompilationUnit> safeCompilationUnits = protectAgainstInfiniteLoops(unsafeCompilationUnits);
         CompilationUnit testClass = testCodeBuilder.build(submission.getAssessment());
-        compilationUnits.add(testClass);
-        return compiler.compile(compilationUnits);
+        safeCompilationUnits.add(testClass);
+        return compiler.compile(safeCompilationUnits);
     }
 
     private SubmissionResult run(CompilationResult compilationResult) {
@@ -50,6 +52,10 @@ public class SubmissionVerifier {
         runParams.setCompilationResult(compilationResult);
         runParams.setMethodName(TestClassCodeBuilder.EXECUTE);
         return runner.run(runParams).asSubmissionResult();
+    }
+
+    private List<CompilationUnit> protectAgainstInfiniteLoops(List<CompilationUnit> unsafeCompilationUnits) {
+        return unsafeCompilationUnits.stream().map(CompilationUnit::safeCopy).collect(Collectors.toList());
     }
 
 }

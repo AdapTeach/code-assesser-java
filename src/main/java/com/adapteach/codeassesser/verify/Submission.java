@@ -1,5 +1,6 @@
-package com.adapteach.codeassesser.model;
+package com.adapteach.codeassesser.verify;
 
+import com.adapteach.codeassesser.compile.CompilationUnit;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

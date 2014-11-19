@@ -1,6 +1,6 @@
 package com.adapteach.codeassesser.web;
 
-import com.adapteach.codeassesser.model.Submission;
+import com.adapteach.codeassesser.verify.Submission;
 import com.google.gson.Gson;
 import spark.ResponseTransformer;
 

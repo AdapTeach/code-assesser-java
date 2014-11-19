@@ -1,6 +1,9 @@
 package com.adapteach.codeassesser;
 
-import com.adapteach.codeassesser.model.*;
+import com.adapteach.codeassesser.model.Assessments;
+import com.adapteach.codeassesser.model.CompilationUnitJson;
+import com.adapteach.codeassesser.model.SubmissionJson;
+import com.adapteach.codeassesser.model.SubmissionResultJson;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -105,7 +108,7 @@ public class BackendTest {
 
         SubmissionResultJson result = backend.submit(submission);
 
-        assertThat(result.compilationErrors.size()).isEqualTo(1);
+        assertThat(result.compilationErrors).isNotEmpty();
         assertThat(result.compilationErrors.get(0)).contains(helloWorldClass.code);
     }
 
@@ -226,6 +229,152 @@ public class BackendTest {
         assertThat(result.pass).isFalse();
         assertThat(result.compilationErrors).hasSize(1);
         assertThat(result.compilationErrors.get(0)).contains("Missing").contains("Child").contains("class");
+    }
+
+    @Test
+    public void shouldFailGracefullyWhenSubmittingInfiniteWhileLoop() throws IOException {
+        SubmissionJson submission = new SubmissionJson();
+        submission.assessment = Assessments.helloWorld();
+
+        CompilationUnitJson infiniteLoop = new CompilationUnitJson();
+        submission.compilationUnits.add(infiniteLoop);
+        infiniteLoop.name = "HelloWorld";
+        infiniteLoop.code = "class HelloWorld { String helloWorld() { while(true) {} } }";
+
+        SubmissionResultJson result = backend.submit(submission);
+
+        assertThat(result.pass).isFalse();
+    }
+
+    @Test
+    public void shouldFailGracefullyWhenSubmittingInfiniteWhileLoopWithReturn() throws IOException {
+        SubmissionJson submission = new SubmissionJson();
+        submission.assessment = Assessments.helloWorld();
+
+        CompilationUnitJson infiniteLoop = new CompilationUnitJson();
+        submission.compilationUnits.add(infiniteLoop);
+        infiniteLoop.name = "HelloWorld";
+        infiniteLoop.code = "class HelloWorld { String helloWorld() { while(true) {} return \"\"; } }";
+
+        SubmissionResultJson result = backend.submit(submission);
+
+        assertThat(result.pass).isFalse();
+    }
+
+    @Test
+    public void shouldFailGracefullyWhenSubmittingInfiniteWhileLoopWithoutBraces() throws IOException {
+        SubmissionJson submission = new SubmissionJson();
+        submission.assessment = Assessments.helloWorld();
+
+        CompilationUnitJson infiniteLoop = new CompilationUnitJson();
+        submission.compilationUnits.add(infiniteLoop);
+        infiniteLoop.name = "HelloWorld";
+        infiniteLoop.code = "class HelloWorld { String helloWorld() { while(true); } }";
+
+        SubmissionResultJson result = backend.submit(submission);
+
+        assertThat(result.pass).isFalse();
+    }
+
+    @Test
+    public void shouldFailGracefullyWhenSubmittingInfiniteWhileLoopWithoutBracesWithReturn() throws IOException {
+        SubmissionJson submission = new SubmissionJson();
+        submission.assessment = Assessments.helloWorld();
+
+        CompilationUnitJson infiniteLoop = new CompilationUnitJson();
+        submission.compilationUnits.add(infiniteLoop);
+        infiniteLoop.name = "HelloWorld";
+        infiniteLoop.code = "class HelloWorld { String helloWorld() { while(true); return \"\"; } }";
+
+        SubmissionResultJson result = backend.submit(submission);
+
+        assertThat(result.pass).isFalse();
+    }
+
+    @Test
+    public void shouldFailGracefullyWhenSubmittingInfiniteForLoop() throws IOException {
+        SubmissionJson submission = new SubmissionJson();
+        submission.assessment = Assessments.helloWorld();
+
+        CompilationUnitJson infiniteLoop = new CompilationUnitJson();
+        submission.compilationUnits.add(infiniteLoop);
+        infiniteLoop.name = "HelloWorld";
+        infiniteLoop.code = "class HelloWorld { String helloWorld() { for(;;) {} } }";
+
+        SubmissionResultJson result = backend.submit(submission);
+
+        assertThat(result.pass).isFalse();
+    }
+
+    @Test
+    public void shouldFailGracefullyWhenSubmittingInfiniteForLoopWithReturn() throws IOException {
+        SubmissionJson submission = new SubmissionJson();
+        submission.assessment = Assessments.helloWorld();
+
+        CompilationUnitJson infiniteLoop = new CompilationUnitJson();
+        submission.compilationUnits.add(infiniteLoop);
+        infiniteLoop.name = "HelloWorld";
+        infiniteLoop.code = "class HelloWorld { String helloWorld() { for(;;) {} return \"\"; } }";
+
+        SubmissionResultJson result = backend.submit(submission);
+
+        assertThat(result.pass).isFalse();
+    }
+
+    @Test
+    public void shouldInterruptThreadWhenSubmittingInfiniteWhileLoop() throws IOException {
+        SubmissionJson submission = new SubmissionJson();
+        submission.assessment = Assessments.helloWorld();
+
+        CompilationUnitJson helloWorldClass = new CompilationUnitJson();
+        submission.compilationUnits.add(helloWorldClass);
+        helloWorldClass.name = "HelloWorld";
+        helloWorldClass.code
+                = "public class " + helloWorldClass.name + " {" +
+                "" +
+                "   public String helloWorld() {" +
+                "       while (true) {" +
+                "           if (Thread.currentThread().isInterrupted() && !Thread.currentThread().isInterrupted())" +
+                "               break;" +
+                "           System.out.println(\"Infinite Loop\");" +
+                "       }" +
+                "       return \"Trying to kill the server with infinite loop\";  " +
+                "   }" +
+                "" +
+                "}";
+
+        SubmissionResultJson result = backend.submit(submission);
+
+        assertThat(result.pass).isFalse();
+        assertThat(result.exceptionMessage).contains("too long");
+    }
+
+    @Test
+    public void shouldInterruptThreadWhenSubmittingInfiniteForLoop() throws IOException {
+        SubmissionJson submission = new SubmissionJson();
+        submission.assessment = Assessments.helloWorld();
+
+        CompilationUnitJson helloWorldClass = new CompilationUnitJson();
+        submission.compilationUnits.add(helloWorldClass);
+        helloWorldClass.name = "HelloWorld";
+        helloWorldClass.code
+                = "public class " + helloWorldClass.name + " {" +
+                "" +
+                "   public String helloWorld() {" +
+                "       for (;;) {" +
+                "           if (Thread.currentThread().isInterrupted() && !Thread.currentThread().isInterrupted())" +
+                "               break;" +
+                "           System.out.println(\"Infinite Loop\");" +
+                "       }" +
+                "       return \"Trying to kill the server with infinite loop\";  " +
+                "   }" +
+                "" +
+                "}";
+
+        SubmissionResultJson result = backend.submit(submission);
+
+        assertThat(result.pass).isFalse();
+        assertThat(result.exceptionMessage).contains("too long");
     }
 
 }

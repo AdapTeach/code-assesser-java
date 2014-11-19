@@ -1,5 +1,7 @@
-package com.adapteach.codeassesser.model;
+package com.adapteach.codeassesser.verify;
 
+import com.adapteach.codeassesser.compile.CompilationUnit;
+import com.adapteach.codeassesser.verify.Test;
 import lombok.Data;
 
 import java.util.ArrayList;
