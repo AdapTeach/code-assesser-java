@@ -20,7 +20,7 @@ public class BackendTest {
         submission.assessment = Assessments.helloWorld();
 
         CompilationUnitJson helloWorldClass = new CompilationUnitJson();
-        submission.compilationUnits.add(helloWorldClass);
+        submission.submittedCompilationUnits.add(helloWorldClass);
         helloWorldClass.name = "HelloWorld";
         helloWorldClass.code
                 = "public class " + helloWorldClass.name + " {" +
@@ -42,7 +42,7 @@ public class BackendTest {
         submission.assessment = Assessments.helloWorld();
 
         CompilationUnitJson helloWorldClass = new CompilationUnitJson();
-        submission.compilationUnits.add(helloWorldClass);
+        submission.submittedCompilationUnits.add(helloWorldClass);
         helloWorldClass.name = "HelloWorld";
         helloWorldClass.code
                 = "public class " + helloWorldClass.name + " {" +
@@ -64,7 +64,7 @@ public class BackendTest {
         submission.assessment = Assessments.helloWorld();
 
         CompilationUnitJson helloWorldClass = new CompilationUnitJson();
-        submission.compilationUnits.add(helloWorldClass);
+        submission.submittedCompilationUnits.add(helloWorldClass);
         helloWorldClass.name = "HelloWorld";
         helloWorldClass.code
                 = "public class " + helloWorldClass.name + " {" +
@@ -77,7 +77,7 @@ public class BackendTest {
 
         SubmissionResultJson result = backend.submit(submission);
 
-        assertThat(result.failedTestMessages.size()).isEqualTo(1);
+        assertThat(result.failedTestMessages).hasSize(1);
         assertThat(result.failedTestMessages.get(0)).contains("Failed");
     }
 
@@ -87,7 +87,7 @@ public class BackendTest {
         submission.assessment = Assessments.helloWorld();
 
         CompilationUnitJson helloWorldClass = new CompilationUnitJson();
-        submission.compilationUnits.add(helloWorldClass);
+        submission.submittedCompilationUnits.add(helloWorldClass);
         helloWorldClass.name = "HelloWorld";
         helloWorldClass.code = "class { }"; // Can't compile this !
 
@@ -102,7 +102,7 @@ public class BackendTest {
         submission.assessment = Assessments.helloWorld();
 
         CompilationUnitJson helloWorldClass = new CompilationUnitJson();
-        submission.compilationUnits.add(helloWorldClass);
+        submission.submittedCompilationUnits.add(helloWorldClass);
         helloWorldClass.name = "HelloWorld";
         helloWorldClass.code = "class { }"; // Can't compile this !
 
@@ -118,7 +118,7 @@ public class BackendTest {
         submission.assessment = Assessments.helloWorld();
 
         CompilationUnitJson helloWorldClass = new CompilationUnitJson();
-        submission.compilationUnits.add(helloWorldClass);
+        submission.submittedCompilationUnits.add(helloWorldClass);
         helloWorldClass.name = "HelloWorld";
         helloWorldClass.code
                 = "public class " + helloWorldClass.name + " {" +
@@ -140,7 +140,7 @@ public class BackendTest {
         submission.assessment = Assessments.allPositive();
 
         CompilationUnitJson allPositiveClass = new CompilationUnitJson();
-        submission.compilationUnits.add(allPositiveClass);
+        submission.submittedCompilationUnits.add(allPositiveClass);
         allPositiveClass.name = "AllPositive";
         allPositiveClass.code
                 = "public class " + allPositiveClass.name + " {" +
@@ -165,7 +165,7 @@ public class BackendTest {
         submission.assessment = Assessments.initializedField();
 
         CompilationUnitJson initializedFieldClass = new CompilationUnitJson();
-        submission.compilationUnits.add(initializedFieldClass);
+        submission.submittedCompilationUnits.add(initializedFieldClass);
         initializedFieldClass.name = "InitializedField";
         initializedFieldClass.code
                 = "public class " + initializedFieldClass.name + " {" +
@@ -185,7 +185,7 @@ public class BackendTest {
         submission.assessment = Assessments.initializedField();
 
         CompilationUnitJson initializedFieldClass = new CompilationUnitJson();
-        submission.compilationUnits.add(initializedFieldClass);
+        submission.submittedCompilationUnits.add(initializedFieldClass);
         initializedFieldClass.name = "Person";
         initializedFieldClass.code
                 = "public class " + initializedFieldClass.name + " {" +
@@ -205,7 +205,7 @@ public class BackendTest {
         submission.assessment = Assessments.inheritance();
 
         CompilationUnitJson childClass = new CompilationUnitJson();
-        submission.compilationUnits.add(childClass);
+        submission.submittedCompilationUnits.add(childClass);
         childClass.name = "Child";
         childClass.code = "public class Child extends Parent {}";
 
@@ -220,7 +220,7 @@ public class BackendTest {
         submission.assessment = Assessments.inheritance();
 
         CompilationUnitJson childClass = new CompilationUnitJson();
-        submission.compilationUnits.add(childClass);
+        submission.submittedCompilationUnits.add(childClass);
         childClass.name = "Child";
         childClass.code = "";
 
@@ -237,7 +237,7 @@ public class BackendTest {
         submission.assessment = Assessments.helloWorld();
 
         CompilationUnitJson infiniteLoop = new CompilationUnitJson();
-        submission.compilationUnits.add(infiniteLoop);
+        submission.submittedCompilationUnits.add(infiniteLoop);
         infiniteLoop.name = "HelloWorld";
         infiniteLoop.code = "class HelloWorld { String helloWorld() { while(true) {} } }";
 
@@ -252,7 +252,7 @@ public class BackendTest {
         submission.assessment = Assessments.helloWorld();
 
         CompilationUnitJson infiniteLoop = new CompilationUnitJson();
-        submission.compilationUnits.add(infiniteLoop);
+        submission.submittedCompilationUnits.add(infiniteLoop);
         infiniteLoop.name = "HelloWorld";
         infiniteLoop.code = "class HelloWorld { String helloWorld() { while(true) {} return \"\"; } }";
 
@@ -267,7 +267,7 @@ public class BackendTest {
         submission.assessment = Assessments.helloWorld();
 
         CompilationUnitJson infiniteLoop = new CompilationUnitJson();
-        submission.compilationUnits.add(infiniteLoop);
+        submission.submittedCompilationUnits.add(infiniteLoop);
         infiniteLoop.name = "HelloWorld";
         infiniteLoop.code = "class HelloWorld { String helloWorld() { while(true); } }";
 
@@ -282,7 +282,7 @@ public class BackendTest {
         submission.assessment = Assessments.helloWorld();
 
         CompilationUnitJson infiniteLoop = new CompilationUnitJson();
-        submission.compilationUnits.add(infiniteLoop);
+        submission.submittedCompilationUnits.add(infiniteLoop);
         infiniteLoop.name = "HelloWorld";
         infiniteLoop.code = "class HelloWorld { String helloWorld() { while(true); return \"\"; } }";
 
@@ -297,7 +297,7 @@ public class BackendTest {
         submission.assessment = Assessments.helloWorld();
 
         CompilationUnitJson infiniteLoop = new CompilationUnitJson();
-        submission.compilationUnits.add(infiniteLoop);
+        submission.submittedCompilationUnits.add(infiniteLoop);
         infiniteLoop.name = "HelloWorld";
         infiniteLoop.code = "class HelloWorld { String helloWorld() { for(;;) {} } }";
 
@@ -312,7 +312,7 @@ public class BackendTest {
         submission.assessment = Assessments.helloWorld();
 
         CompilationUnitJson infiniteLoop = new CompilationUnitJson();
-        submission.compilationUnits.add(infiniteLoop);
+        submission.submittedCompilationUnits.add(infiniteLoop);
         infiniteLoop.name = "HelloWorld";
         infiniteLoop.code = "class HelloWorld { String helloWorld() { for(;;) {} return \"\"; } }";
 
@@ -327,7 +327,7 @@ public class BackendTest {
         submission.assessment = Assessments.helloWorld();
 
         CompilationUnitJson helloWorldClass = new CompilationUnitJson();
-        submission.compilationUnits.add(helloWorldClass);
+        submission.submittedCompilationUnits.add(helloWorldClass);
         helloWorldClass.name = "HelloWorld";
         helloWorldClass.code
                 = "public class " + helloWorldClass.name + " {" +
@@ -355,7 +355,7 @@ public class BackendTest {
         submission.assessment = Assessments.helloWorld();
 
         CompilationUnitJson helloWorldClass = new CompilationUnitJson();
-        submission.compilationUnits.add(helloWorldClass);
+        submission.submittedCompilationUnits.add(helloWorldClass);
         helloWorldClass.name = "HelloWorld";
         helloWorldClass.code
                 = "public class " + helloWorldClass.name + " {" +

@@ -13,6 +13,6 @@ public class SubmissionJson {
     public AssessmentJson assessment;
 
     @Key
-    public List<CompilationUnitJson> compilationUnits = new ArrayList<>();
+    public List<CompilationUnitJson> submittedCompilationUnits = new ArrayList<>();
 
 }

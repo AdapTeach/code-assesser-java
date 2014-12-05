@@ -15,11 +15,11 @@ public class Submission {
 
     private Assessment assessment;
 
-    private List<CompilationUnit> compilationUnits = new ArrayList<>();
+    private List<CompilationUnit> submittedCompilationUnits = new ArrayList<>();
 
     public List<CompilationUnit> getAllCompilationUnits() {
         List<CompilationUnit> toReturn = new ArrayList<>();
-        toReturn.addAll(compilationUnits);
+        toReturn.addAll(submittedCompilationUnits);
         toReturn.addAll(assessment.getProvidedCompilationUnits());
         return toReturn;
     }
