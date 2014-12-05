@@ -36,6 +36,7 @@ public class CompilationUnit {
         String safeCode = code;
         safeCode = removeAllComments(safeCode);
         safeCode = protectAgainstInfiniteWhileLoops(safeCode);
+        safeCode = protectAgainstInfiniteDoLoops(safeCode);
         safeCode = protectAgainstInfiniteForLoops(safeCode);
         return safeCode;
     }
@@ -61,36 +62,42 @@ public class CompilationUnit {
     }
 
     private String protectAgainstInfiniteWhileLoops(String code) {
-        StringBuilder source = new StringBuilder(code);
-        StringBuilder destination = new StringBuilder();
-        while (source.indexOf("while") >= 0) {
-            int whilePos = source.indexOf("while");
-            int semicolonPos = source.indexOf(";", whilePos);
-            int openingBracePos = source.indexOf("{", whilePos);
-            if (openingBracePos > 0 && openingBracePos < semicolonPos) { // construct has opening braces
-                destination.append(source.subSequence(0, openingBracePos + 1));
-                source.delete(0, openingBracePos + 1);
-                destination.append("if (Thread.currentThread().isInterrupted()) break;");
-            } else { // construct has no opening braces
-                throw new CodeStyleException("while statements should always be used with braces");
-            }
-        }
-        destination.append(source);
-        return destination.toString();
+//        StringBuilder source = new StringBuilder(code);
+//        StringBuilder destination = new StringBuilder();
+//        while (source.indexOf("while") >= 0) {
+//            int whilePos = source.indexOf("while");
+//            int semicolonPos = source.indexOf(";", whilePos);
+//            int openingBracePos = source.indexOf("{", whilePos);
+//            if (openingBracePos > 0 && openingBracePos < semicolonPos) { // construct has opening braces
+//                destination.append(source.subSequence(0, openingBracePos + 1));
+//                source.delete(0, openingBracePos + 1);
+//                destination.append("if (Thread.currentThread().isInterrupted()) break;");
+//            } else { // construct has no opening braces
+//                throw new CodeStyleException("while statements should always be used with braces");
+//            }
+//        }
+//        destination.append(source);
+//        return destination.toString();
+        return code;
+    }
+
+    private String protectAgainstInfiniteDoLoops(String code) {
+        return code;
     }
 
     private String protectAgainstInfiniteForLoops(String code) {
-        StringBuilder source = new StringBuilder(code);
-        StringBuilder destination = new StringBuilder();
-        while (source.indexOf("for") >= 0) {
-            int forPos = source.indexOf("for");
-            int openingBrace = source.indexOf("{", forPos);
-            destination.append(source.subSequence(0, openingBrace + 1));
-            source.delete(0, openingBrace + 1);
-            destination.append("if (Thread.currentThread().isInterrupted()) break;");
-        }
-        destination.append(source);
-        return destination.toString();
+//        StringBuilder source = new StringBuilder(code);
+//        StringBuilder destination = new StringBuilder();
+//        while (source.indexOf("for") >= 0) {
+//            int forPos = source.indexOf("for");
+//            int openingBrace = source.indexOf("{", forPos);
+//            destination.append(source.subSequence(0, openingBrace + 1));
+//            source.delete(0, openingBrace + 1);
+//            destination.append("if (Thread.currentThread().isInterrupted()) break;");
+//        }
+//        destination.append(source);
+//        return destination.toString();
+        return code;
     }
 
 }
