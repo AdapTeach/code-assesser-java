@@ -2,6 +2,7 @@ package com.adapteach.codeassesser.web;
 
 import com.adapteach.codeassesser.verify.Submission;
 import com.adapteach.codeassesser.verify.SubmissionVerifier;
+import com.google.inject.Inject;
 
 import static spark.Spark.post;
 
@@ -9,8 +10,14 @@ public class Controller {
 
     public static final String basePath = "/v1/";
 
-    private final JsonTransformer jsonTransformer = new JsonTransformer();
-    private final SubmissionVerifier verifier = new SubmissionVerifier();
+    private final JsonTransformer jsonTransformer;
+    private final SubmissionVerifier verifier;
+
+    @Inject
+    public Controller(JsonTransformer jsonTransformer, SubmissionVerifier submissionVerifier) {
+        this.jsonTransformer = jsonTransformer;
+        this.verifier = submissionVerifier;
+    }
 
     public void publish() {
         post(basePath, (request, response) -> {

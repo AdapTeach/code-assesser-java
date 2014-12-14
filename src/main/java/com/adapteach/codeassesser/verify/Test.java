@@ -12,6 +12,6 @@ public class Test {
 
     private String initializationCode;
 
-    private List<String> expectations = new ArrayList<>();
+    private List<String> assertions = new ArrayList<>();
 
 }

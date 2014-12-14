@@ -14,7 +14,7 @@ public class Assessments {
         TestJson test = new TestJson();
         helloWorld.tests.add(test);
         test.title = "Should return 'Hello, World !'";
-        test.expectations.add("new HelloWorld().helloWorld().equals(\"Hello, World !\")");
+        test.assertions.add("new HelloWorld().helloWorld().equals(\"Hello, World !\")");
 
         return helloWorld;
     }
@@ -37,13 +37,13 @@ public class Assessments {
         allPositive.tests.add(test0);
         test0.title = "Should return true when passed an array containing positive integers only";
         test0.initializationCode = "int[] array = {1, 5, 3, 7, 4, 9, 2};";
-        test0.expectations.add("new AllPositive().allPositive(array)");
+        test0.assertions.add("new AllPositive().allPositive(array)");
 
         TestJson test1 = new TestJson();
         allPositive.tests.add(test1);
         test1.title = "Should return false when passed an array containing a mix of positive and negative integers";
         test1.initializationCode = "int[] array = {1, 5, 3, -7, 4, -9, 2};";
-        test1.expectations.add("!(new AllPositive().allPositive(array))");
+        test1.assertions.add("!(new AllPositive().allPositive(array))");
 
         return allPositive;
     }
@@ -54,7 +54,7 @@ public class Assessments {
         TestJson test0 = new TestJson();
         initializedField.tests.add(test0);
         test0.initializationCode = "Person person = new Person();";
-        test0.expectations.add("person.name.equals(\"Bob\")");
+        test0.assertions.add("person.name.equals(\"Bob\")");
 
         return initializedField;
     }
@@ -69,7 +69,7 @@ public class Assessments {
 
         TestJson test0 = new TestJson();
         inheritance.tests.add(test0);
-        test0.expectations.add("Parent.class.isAssignableFrom(Child.class)");
+        test0.assertions.add("Parent.class.isAssignableFrom(Child.class)");
 
         return inheritance;
     }

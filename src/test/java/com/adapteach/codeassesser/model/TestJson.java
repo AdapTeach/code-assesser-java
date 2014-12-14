@@ -16,6 +16,6 @@ public class TestJson {
     public String initializationCode = "";
 
     @Key
-    public List<String> expectations = new ArrayList<>();
+    public List<String> assertions = new ArrayList<>();
 
 }

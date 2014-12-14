@@ -46,13 +46,13 @@ public class TestClassCodeBuilder {
             "}";
 
     /**
-     * index, initializationCode, expectation, index, title
+     * index, initializationCode, assertion, index, title
      */
     private static final String TEST_METHOD_TEMPLATE
             = "public String test%d() {" +
             "   %s" +
-            "   boolean passExpectation = (%s);" +
-            "   if (!passExpectation) {" +
+            "   boolean passAssertion = (%s);" +
+            "   if (!passAssertion) {" +
             "       return \"Failed test #%d : %s\";" +
             "   }" +
             "   return null;" +
@@ -83,7 +83,7 @@ public class TestClassCodeBuilder {
     }
 
     private String formatTestMethod(Test test, int index) {
-        return String.format(TEST_METHOD_TEMPLATE, index, test.getInitializationCode(), test.getExpectations().get(0), index, test.getTitle());
+        return String.format(TEST_METHOD_TEMPLATE, index, test.getInitializationCode(), test.getAssertions().get(0), index, test.getTitle());
     }
 
     private String formatExecuteMethod(int testCount) {
